@@ -1,0 +1,31 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        vector<int> result(n+m);
+        int i=0;
+        int j=0;
+        int k=0;
+
+        while (m>i && n >j) {
+            if (nums1[i] < nums2[j]) {
+                result[k++] = nums1[i++];
+            } else {
+                result[k++] = nums2[j++];
+            }
+        }
+
+        while (j < n) {
+            result[k++] = nums2[j++];
+        }
+
+        while (i < m) {
+            result[k++] = nums1[i++];
+        }
+
+        //hàm dùng void đéo trả về con cặc gì nên mình dùng nums1 làm mảng output
+        //chép result vô nums1
+        for (int i = 0 ; i < n+m; ++i) {
+            nums1[i] = result[i];
+        }
+    }
+};
