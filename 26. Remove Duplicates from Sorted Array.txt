@@ -1,0 +1,18 @@
+Des: xóa ptu trùng trong mảng đã dc sort tăng dần
+How: cho biến chạy replace = 1 (vị trí 0 thì xét làm gì), cho for từ i = 1 tới cuối
+	xét số trước đó và chính nó có khác nhau ko, có thì gán nó vào chỗ index của biến chạy replace, tăng replace thực hiện lại
+	return replace vì replace cũng là kích cỡ còn lại
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int replace = 1;
+        for (int i = 1; i<nums.size() ; i++) {
+            if (nums[i-1] != nums[i]) {
+                nums[replace] = nums[i];
+                replace++;
+            }
+        }
+        return replace;
+    }
+};

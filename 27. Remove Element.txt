@@ -1,0 +1,16 @@
+Des: Xóa ptu dc yêu cầu, trả về kích cỡ mảng sau khi xóa
+How: Dùng k làm biến chạy, duyệt mảng, cái nào khác giá trị yêu cầu xóa thì gán nó về vị trí k (kiểu dựt ngược ptu về), return k tại k đồng thời là kích cỡ còn lại
+
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int k = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[i] != val) {
+                nums[k] = nums[i];
+                k++;
+            }
+        }
+        return k;
+    }
+};

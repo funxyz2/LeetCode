@@ -1,3 +1,6 @@
+Des: Bài này kêu gộp 2 mảng
+How: Tạo mảng tạm, xét các ptu trong mảng, xét xong mảng nào còn dư thì quăng đại vào luôn khỏi nghĩ => tương tự hàm merge trong MergeSort
+
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
@@ -22,7 +25,7 @@ public:
             result[k++] = nums1[i++];
         }
 
-        //hàm dùng void đéo trả về con cặc gì nên mình dùng nums1 làm mảng output
+        //hàm dùng void ko trả về gì nên mình dùng nums1 làm mảng output
         //chép result vô nums1
         for (int i = 0 ; i < n+m; ++i) {
             nums1[i] = result[i];
