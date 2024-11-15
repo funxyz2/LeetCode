@@ -1,0 +1,25 @@
+des: tìm 2 số sao cho tổng bằng target
+how: bài này ko cho dùng pair<int,int> mà bắt dùng vector<int>, tuy vậy mình vẫn có thể return 1 cặp giá trị
+	dùng 2 con trỏ, lấy đầu + cuối, nếu tổng nhỏ hơn target thì tăng left, nếu tổng lớn hơn target thì giảm cuối
+	*bài này khó ở chỗ return ra đúng dạng đề yêu cầu, không hiểu tại sao chỉ return cặp giá trị thôi mà vẫn ra output dưới dạng [x,y]*
+	*đề cũng k ycau trả [-1,-1] vì đề đảm bảo input có cặp giá trị phù hợp, nhưng vẫn phải return vì đây ko phải hàm void*
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int left = 0;
+        int right = numbers.size() - 1;
+
+        while (right > left) {
+            int temp = numbers[right] + numbers[left];
+            if (temp == target) {
+                return {left+1,right+1};
+            } else if (temp < target ) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return {-1,-1};
+    }
+};

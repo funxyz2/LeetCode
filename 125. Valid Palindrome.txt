@@ -1,0 +1,30 @@
+des: tìm chuỗi palindrome (reverse chuỗi thì vẫn giống chuỗi ban đầu)
+how: xử lý chuỗi, dùng 2 con trỏ xét cuối đầu, nếu giống thì tiếp áp cuối áp đầu, giống hết thì true, 1 cặp sai thì flase
+
+class Solution {
+public:
+    string normalize(const string& s) {
+        string temp;
+        for (char c : s) {
+            if (isalnum(c)) {
+                temp += tolower(c);
+            }
+        }
+        return temp;
+    }
+    bool isPalindrome(string s) {
+        if (s.empty()) {
+            return true;
+        }
+        s = normalize(s);
+        int left = 0;
+        int right = s.size() - 1;
+        while (right >= left) {
+            if (s[left] == s[right]) {
+                left++;
+                right--;
+            } else return false;
+        }
+        return true;
+    }   
+};

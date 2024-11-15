@@ -1,0 +1,18 @@
+des: xet chuỗi abc trong chuỗi ahbgdc (ko cần liên tục) => true
+	axc trong chuỗi ahbgdc => false
+how: duyệt chuỗi t (chuỗi ahbgdc) và so sánh từng ptu với từng ptu trong chuỗi s, nếu giống thì tăng biến chạy run lên 1 (biến chạy của chuỗi s)
+	sau cùng nếu biến chạy bằng kích cỡ chuỗi s thì tức là từng phần tử chuỗi s đều có mặt theo thứ tự trong chuỗi t
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int run = 0;
+        for (int i = 0; i< t.size(); ++i) {
+            if (t[i] == s[run]) {
+                run++;
+            }
+        }
+
+        return run == s.size();
+    }
+};
