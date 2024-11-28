@@ -1,0 +1,17 @@
+Des: Tìm phần tử xuất hiện nhiều hơn một nửa số lần trong mảng (phần tử chiếm đa số).
+How: Đếm từng thằng bỏ vào value trong hashmap rồi so key nào value cao hơn n/2 thôi.
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        unordered_map<int, int> count;
+        int n = nums.size();
+        for (auto num : nums) {
+            count[num]++;
+            if (count[num] > (n/2)) {
+                return num;
+            }
+        }
+        return -1;
+    }
+};
