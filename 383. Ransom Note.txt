@@ -1,0 +1,29 @@
+des: xét xem kí tự trong magazine có thể xây dựng ransomNote không (mỗi kí tự chỉ được dùng 1 lần)
+how: đọc cmt
+
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char, int> charCount;
+
+        //đếm số lượng loại kí tự trong magazine
+        for (char c: magazine) {
+            //ví dụ tìm dc kí tự a => a = 1
+            //tiếp tục tìm dc a => a = 2
+            //giá trị này sẽ lưu trữ trong hashmap charcount
+            charCount[c]++;
+        }
+
+        //kiểm tra từng kí tự trong ransomNote
+        for (char c: ransomNote) {
+            //nếu kí tự đó không tồn tại hoặc có tồn tại nhưng đã hết số lượng  thì return false
+            if (charCount[c] == 0) {
+                return false;
+            } 
+            //nếu kí tự đó có tồn tại thì sử dụng 1 cái, lặp lại đến hết mảng
+            charCount[c]--;
+        }
+        //ko có vde gì thì ransomNote có thể được dựng bởi kí tự trong magazine
+        return true;
+    }
+};

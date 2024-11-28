@@ -1,0 +1,17 @@
+Des: Sửa mảng tăng dần sao cho mỗi phần tử xuất hiện tối đa 2 lần, làm trực tiếp và trả về kích thước mới.
+How: Dùng hai con trỏ để duyệt mảng và ghi đè phần tử chỉ khi nó thỏa điều kiện không quá 2 lần xuất hiện.
+	
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int pos = 0;
+        for (auto num : nums) {
+            if (pos < 2 || nums[pos-2] != num) {
+                nums[pos] = num;
+                pos++;
+            }
+        }
+
+        return pos;
+    }
+};
