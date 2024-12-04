@@ -1,0 +1,35 @@
+Des: bài kiểm tra 2 mảng có isomorphic ko (đồng dạng)
+How: tạo 2 map, xét ánh xạ 2 chiều giữa chúng
+	nếu ko có vde thì nhét tiếp pair key, value
+	lặp đến khi có vấn đề thì false
+	ko có vde thì out ra true
+
+//bài này nhức não khi ktra 2 chiều, mình mất 30p chỉ để hiểu rõ vde này => Hay
+//Có thể áp dụng trong đời sống sinh hoạt
+
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char> mapS, mapT;
+        
+        for (int i = 0; i < s.size(); ++i) {
+            char sc = s[i];
+            char tc = t[i];
+
+            // ktra ánh xạ
+            if (mapS.count(sc) && mapS[sc] != tc) return false;
+            //kiểm tra 2 chiều, lý do vì sao thì hãy vẽ và chạy thử test case này
+            //s = badc
+            //t = baba
+            //sẽ thấy khi i = 2, sc = d và tc = b
+            //nếu chỉ xét 1 bên mapS thì chỉ count(d), d ko có nên continue gán d : b vào mapS
+            //vậy thì sẽ ko biết được rằng b thật ra đã được có đồng dạng với b khi i = 0
+            //vậy nên ktr 2 chiều để đảm bảo chuyện này ko xảy ra
+            if (mapT.count(tc) && mapT[tc] != sc) return false;
+
+            mapS[sc] = tc;
+            mapT[tc] = sc;
+        }
+        return true;
+    }
+};

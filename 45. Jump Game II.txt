@@ -1,0 +1,28 @@
+Des: Tìm số lần nhảy tối thiểu để đạt đến cuối mảng, mỗi phần tử trong mảng cho biết khả năng nhảy tối đa từ vị trí đó.
+How: Duyệt qua mảng, cập nhật phạm vi nhảy xa nhất (farthest) trong mỗi bước, tăng số lần nhảy (jumps) khi đạt đến điểm kết thúc của phạm vi hiện tại và trả về số lần nhảy khi đạt đích.
+
+//Bài này dùng giải thuật Tham Lam, và là 1 trong những bài mình hiểu nhưng khó làm lại được, khó nghĩ ra cách nếu gặp lại => rất hay
+//Mình nhờ gpt giải hộ bài này 100%
+//Mình để code và comment của gpt luôn cho dễ nhớ
+
+int jump(vector<int>& nums) {
+    int n = nums.size();
+    int jumps = 0;           // Số lần nhảy
+    int currentEnd = 0;      // Phạm vi hiện tại
+    int farthest = 0;        // Phạm vi xa nhất có thể đến
+
+    for (int i = 0; i < n - 1; ++i) {
+        farthest = max(farthest, i + nums[i]); // Cập nhật phạm vi xa nhất
+
+        // Khi đến cuối phạm vi hiện tại, tăng số lần nhảy
+        if (i == currentEnd) {
+            ++jumps;
+            currentEnd = farthest;
+
+            // Nếu đã đến hoặc vượt qua đích, thoát vòng lặp
+            if (currentEnd >= n - 1) break;
+        }
+    }
+
+    return jumps;
+}

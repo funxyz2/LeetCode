@@ -1,0 +1,18 @@
+Des: tổi ưu lợi nhuận trên tập giá cổ phiếu có sẵn
+	phải bán trước khi mua lại
+	được mua bán nhiều lần
+How: viết ra tập prices, để ý thấy chỉ cần tính tổng khoảng cách giữa các prices liền kề, nếu nó dương (lời) thì lấy, nếu nó âm (lỗ) thì bỏ qua.
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int result = 0;
+        for (int i = 1; i < prices.size(); ++i) {
+            int distance = prices[i] - prices[i - 1];
+            if (distance > 0) {
+                result += distance;
+            }
+        }
+        return result;
+    }
+};

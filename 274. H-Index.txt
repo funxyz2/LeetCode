@@ -1,0 +1,18 @@
+Mô tả: Tìm h-index, số lớn nhất sao cho có ít nhất h bài báo được trích dẫn ít nhất h lần.
+How: giảm dần citations, duyệt từng phần tử và so sánh với h++, nếu nó lớn hơn bằng thì hIndex++, không thì return hIndex.
+
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        sort(citations.begin(), citations.end(), greater<int>());
+        int hIndex = 0;
+        for (int i = 0; i < citations.size(); ++i) {
+            if (citations[i] >= hIndex + 1) {
+                hIndex++;
+            } else {
+                break;
+            }
+        }
+        return hIndex;
+    }
+};

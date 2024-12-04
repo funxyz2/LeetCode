@@ -1,0 +1,16 @@
+Des: Kiểm tra xem có thể nhảy từ vị trí đầu tiên đến cuối cùng trong mảng, nơi mỗi phần tử chỉ định số bước tối đa có thể nhảy từ vị trí đó.
+How: Duyệt qua mảng và cập nhật vị trí xa nhất có thể nhảy đến (`farthest`), nếu tại bất kỳ thời điểm nào, `farthest` vượt qua hoặc bằng chỉ số cuối mảng, trả về `true`; nếu không thể tiến xa hơn, trả về `false`.
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int farthest = 0;
+        for (int i = 0; i < nums.size() ; ++i) {
+            if (i > farthest) return false; //dk dừng cuối, vì nếu nó là ptu cuối thì ko xét nữa (ptu cuối thì đến ptu cuối làm gì)
+            farthest = max(farthest, i + nums[i]);
+            if (farthest >= nums.size() - 1) return true; //nếu có thể nhảy đến cuối hoặc vượt luôn đích thì canJump
+        }
+
+        return false; //phòng hờ bug
+    }
+};
