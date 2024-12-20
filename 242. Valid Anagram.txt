@@ -1,0 +1,28 @@
+Des: xét s và t có phải anagram của nhau ko
+How: 3 cách (xếp theo tốc độ)
+	1. tạo bảng công tắc, bật theo kí tự trong s, tắt theo kí tự trong t, nếu là anagram thì chúng triệt tiêu nhau
+	2. dùng sort, sort s và t theo thứ tự bé đến thấp, return s == t
+	3. tạo 2 hash map, xét từng key trong s rồi tăng value, tương tự s. Cuối cùng so value từng key trong s và t, bằng thì true
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if (s.size() != t.size()) return false;
+
+        //tạo 1 bảng 26 công tắc
+        vector<int> count(26,0);
+
+        // bật công tắc theo số lần kí tự trong s, tắt công tắt theo số lần kí tự trong t
+        for (int i = 0; i < s.size(); i++) {
+            count[s[i] - 'a']++;
+            count[t[i] - 'a']--;
+        }
+
+        //bảng 26 công tắc khác 0 thì ko phải là anagram
+        for (auto& freq : count) {
+            if (freq) return false;
+        }
+
+        return true;
+    }   
+};

@@ -1,0 +1,34 @@
+Des: mảng chứa ptu liền kề, phạm vi phần từ [0, n-1]
+	không hoán vị ptu
+	split các ptu thành các mảng nhỏ, để khi sort trong các mảng nhỏ, ghép các mảng nhỏ lại, kết quả sẽ luôn là 1 mảng tăng dần
+	mảng nhỏ đó gọi là chunks
+	tìm số lượng chunks lớn nhất
+How: có nhiều cách (4 cách leetcode hướng dẫn và 1 cách của thái vinh)
+	mình chọn cách PrefixSum của leetcode vì thấy cách này hay nhất
+Lưu ý: bài này chỉ cho đúng trường hợp mảng chứa ptu liền kề, phạm vi phần từ [0, n-1], không hoán vị ptu 
+
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) {
+        //dùng cách prefix sums, tính tổng từng phần tử i trong mảng input và mảng đã sort
+        //nếu 2 sum bằng nhau thì count++
+        //lợi dụng tính năng phần tử sẽ từ 0 tới n - 1
+        //và liền kề
+        //nếu ko có thì cách này sai
+
+        //suy nghĩ đơn giản thì phải tạo 2 mảng chứa sum từng phép tính cho 2 mảng chưa sort và đã sort
+        //nhưng do liền kề và luôn bắt đầu từ 0
+        //ta lợi dụng i luôn tăng dần từ 0, cập nhật nó mỗi lần, vậy là ko cần phải lưu thêm mảng sortedSum
+        int chunks = 0, preFixSum = 0, sortedPreFixSum = 0;
+
+        for (int i = 0; i < arr.size(); ++i) {
+            preFixSum += arr[i];
+            sortedPreFixSum += i;
+            
+            if (preFixSum == sortedPreFixSum) {
+                chunks++;
+            }
+        } 
+        return chunks;  
+    }
+};

@@ -1,0 +1,44 @@
+Des: Kiểm tra xem chuỗi s có tuân theo ánh xạ một-một với mẫu ký tự trong pattern.
+How: Tách s thành các từ, kiểm tra số lượng từ và ký tự, dùng hai bảng băm để đảm bảo ánh xạ hai chiều hợp lệ.
+
+class Solution {
+public:
+    //ánh xạ 2 chiều
+    bool wordPattern(string pattern, string s) {
+        unordered_map<char, string> mapCharToWord;
+        unordered_map<string, char> mapWordToChar;
+
+        //xử lý chuỗi và lưu vào words (truy cập chỉ có O(n))
+        vector<string> words;
+        stringstream ss(s);
+        string word;
+        while (ss >> word) {
+            words.push_back(word);
+        }
+
+        while (words.size() != pattern.size()) return false;
+
+        //điều kiện dừng
+        for (int i = 0 ; i < pattern.size(); i++) {
+            //lưu tạm để duyệt nhanh hơn
+            char ch = pattern[i];
+            string w = words[i];
+
+            //kiểm tra ánh xạ 2 chiều
+            if (mapCharToWord.count(ch) && mapCharToWord[ch] != w) {
+                return false;
+            }
+
+            if (mapWordToChar.count(w) && mapWordToChar[w] != ch) {
+                return false;
+            }
+
+            //vậy là key chưa tồn tại, thêm mới vào 2 map
+            mapCharToWord[ch] = w;
+            mapWordToChar[w] = ch;
+        }
+
+        return true;
+        
+    }
+};

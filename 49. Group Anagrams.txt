@@ -1,0 +1,28 @@
+Des: tìm và nhóm các ptu có sự anagram
+How: đọc comment
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        //tạo 1 map chữ và mảng chứa chữ có sự anagram
+        unordered_map<string, vector<string>> groups;
+
+        // sử dụng 1 biến thay thế chứa giả trị thật để sort rồi xem có anagram ko
+        // nếu có thì nhét giá trị thật vào mảng chứa chữ có sự anagram
+        for (const auto& str : strs) {
+            string sortedStr = str;
+            sort(sortedStr.begin(), sortedStr.end());
+            groups[sortedStr].push_back(str);
+        }
+
+        //tạo 1 mảng chứa mảng
+        vector<vector<string>> result;
+
+        // nhét mảng chứa chữ có sự anagram vào ptu mảng result, ptu mảng đó cũng là 1 mảng
+        for (const auto& group : groups) {
+            result.push_back(group.second);
+        }
+
+        return result;
+    }
+};

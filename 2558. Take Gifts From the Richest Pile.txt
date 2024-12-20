@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool isPerfectSquare(int temp) {
+        temp = (int)sqrt(temp);
+        return temp * temp;
+    }
+
+    long long pickGifts(vector<int>& gifts, int k) {
+        long long int count = 0;
+        while (k--) {
+            auto max_it = max_element(gifts.begin(), gifts.end());
+            if (isPerfectSquare(*max_it)) {
+                *max_it = sqrt(*max_it);
+            }
+        }
+        for (int g : gifts) {
+            count += g;
+        }
+        return count;
+    }
+};

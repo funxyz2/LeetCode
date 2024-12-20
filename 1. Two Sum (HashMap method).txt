@@ -1,0 +1,23 @@
+Des: tìm 2 số cộng lại = target, trả về chỉ số 2 số đó
+How: Đọc comment
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> numMap; // lưu giá trị và chỉ số
+
+        for (int i = 0 ; i < nums.size() ; i++) {
+            // tìm phần phụ, nếu phần phụ này bằng ptu đã có trong hashmap
+            // trả về chỉ số ptu đã có ấy và chỉ số hiện tại
+            int complement = target - nums[i];
+            if (numMap.find(complement) != numMap.end()) {
+                return {numMap[complement], i};
+            }
+
+            //nếu ko tìm thấy trong hashmap, lưu giá trị và chỉ số cái mới vào
+            numMap[nums[i]] = i;
+        }
+
+        return {}; //trường hợp ko có gì
+    }
+};

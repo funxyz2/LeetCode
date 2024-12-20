@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+// Các biến chia sẻ
+int x1 = 2, x2 = 3, x3 = 4, x4 = 5, x5 = 6, x6 = 7;
+int w = 0, v = 0, y = 0, z = 0, ans = 0;
+
+// Mutex và condition variable
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cond_v = PTHREAD_COND_INITIALIZER;
+pthread_cond_t cond_yz = PTHREAD_COND_INITIALIZER;
+pthread_cond_t cond_ans = PTHREAD_COND_INITIALIZER;
+
+// Cờ trạng thái để đồng bộ hóa
+int v_computed = 0;
+int y_computed = 0;
+int z_computed = 0;
+
+void* compute_w(void* arg) {
+    w = x1 * x2;
+    printf("w computed: %d\n", w);
+    return NULL;
+}
+
+void* compute_v(void* arg) {
+    v = x3 * x4;
+    printf("v computed: %d\n", v);
+
+    pthread_mutex_lock(&mutex);
+    v_computed = 1;
+    pthread_cond_broadcast(&cond_v);
+    pthread_mutex_unlock(&mutex);
+
+    return NULL;
+}
+
+void* compute_y(void* arg) {
+    pthread_mutex_lock(&mutex);
+    while (!v_computed) {
+        pthread_cond_wait(&cond_v, &mutex);
+    }
+    pthread_mutex_unlock(&mutex);
+
+    y = v * x5;
+    printf("y computed: %d\n", y);
+
+    pthread_mutex_lock(&mutex);
+    y_computed = 1;
+    pthread_cond_signal(&cond_yz);
+    pthread_mutex_unlock(&mutex);
+
+    return NULL;
+}
+
+void* compute_z(void* arg) {
+    pthread_mutex_lock(&mutex);
+    while (!v_computed) {
+        pthread_cond_wait(&cond_v, &mutex);
+    }
+    pthread_mutex_unlock(&mutex);
+
+    z = v * x6;
+    printf("z computed: %d\n", z);
+
+    pthread_mutex_lock(&mutex);
+    z_computed = 1;
+    pthread_cond_signal(&cond_yz);
+    pthread_mutex_unlock(&mutex);
+
+    return NULL;
+}
+
+void* update_y(void* arg) {
+    pthread_mutex_lock(&mutex);
+    while (!y_computed) {
+        pthread_cond_wait(&cond_yz, &mutex);
+    }
+    pthread_mutex_unlock(&mutex);
+
+    y = w * y;
+    printf("y updated: %d\n", y);
+
+    return NULL;
+}
+
+void* update_z(void* arg) {
+    pthread_mutex_lock(&mutex);
+    while (!z_computed) {
+        pthread_cond_wait(&cond_yz, &mutex);
+    }
+    pthread_mutex_unlock(&mutex);
+
+    z = w * z;
+    printf("z updated: %d\n", z);
+
+    return NULL;
+}
+
+void* compute_ans(void* arg) {
+    pthread_mutex_lock(&mutex);
+    while (!y_computed || !z_computed) {
+        pthread_cond_wait(&cond_ans, &mutex);
+    }
+    pthread_mutex_unlock(&mutex);
+
+    ans = y + z;
+    printf("ans computed: %d\n", ans);
+
+    return NULL;
+}
+
+int main() {
+    pthread_t threads[7];
+
+    // Tạo các thread
+    pthread_create(&threads[0], NULL, compute_w, NULL);
+    pthread_create(&threads[1], NULL, compute_v, NULL);
+    pthread_create(&threads[2], NULL, compute_y, NULL);
+    pthread_create(&threads[3], NULL, compute_z, NULL);
+    pthread_create(&threads[4], NULL, update_y, NULL);
+    pthread_create(&threads[5], NULL, update_z, NULL);
+    pthread_create(&threads[6], NULL, compute_ans, NULL);
+
+    // Chờ các thread kết thúc
+    for (int i = 0; i < 7; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    // Giải phóng tài nguyên
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&cond_v);
+    pthread_cond_destroy(&cond_yz);
+    pthread_cond_destroy(&cond_ans);
+
+    return 0;
+}

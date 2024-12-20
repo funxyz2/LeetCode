@@ -1,0 +1,52 @@
+Des: Input: l1 = [2,4,3], l2 = [5,6,4]
+	Output: [7,0,8]
+	Explanation: 342 + 465 = 807.
+	Trả về Node Head của kết quả
+	ví dụ: 7 -> 0 -> 8
+How:
+//đánh giá: ko quá khó nhưng hiện tại chưa làm được
+
+
+//tạo 1 nền tảng dummyHead, ta sẽ return node phía sau nó (1 cách tương tự tạo mảng)
+//curr = dummyHead, để khi thêm node thì dùng curr->next
+//giải thuật: 
+//sum = carry (cộng nhớ từ phép tính trước) 
+//cộng từng value của từng node vào sum, nếu vượt quá 10 thì nhớ 1 (carry +=1)
+//curr-next = new ListNode(sum % 10)
+//chuyển curr = curr->next và lặp lại
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* dummyHead = new ListNode(0); //nền tảng
+        ListNode* curr = dummyHead; //nhảy lên nền tảng
+        int carry = 0; //biến nhớ
+
+        while (l1 != nullptr || l2 != nullptr || carry != 0) {
+            int sum = carry; // cộng thêm biến nhớ ở phép tính trước
+            if (l1 != nullptr) {
+                sum += l1->val;
+                l1 = l1->next;
+            }
+            if (l2 != nullptr) {
+                sum += l2->val;
+                l2 = l2->next;
+            }
+
+            carry = sum / 10; //lấy số hàng chục
+            curr->next = new ListNode(sum % 10); //tạo node mới với value là hàng đơn vị
+            curr = curr->next;
+        }
+        return dummyHead->next;
+    }
+};
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
